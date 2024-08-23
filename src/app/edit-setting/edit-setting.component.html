@@ -1,0 +1,60 @@
+<div class="edit-setting-container">
+  <h2 class="dialog-title">Edit Setting</h2>
+  <form [formGroup]="settingForm" (ngSubmit)="onUpdate()">
+    <div class="form-group">
+      <label for="keyName">Key Name</label>
+      <input type="text" id="keyName" formControlName="key" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="value">Value</label>
+      <input type="text" id="value" formControlName="value" class="form-control">
+      <div class="error-message" *ngIf="settingForm.get('value')?.invalid && (settingForm.get('value')?.touched || settingForm.get('value')?.dirty)">
+        <span *ngIf="settingForm.get('value')?.hasError('required')">Value is required.</span>
+        <span *ngIf="settingForm.get('value')?.hasError('maxlength')">Maximum length of 255 characters exceeded.</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="appName">Application Name</label>
+      <input type="text" id="appName" formControlName="appName" class="form-control">
+      <div class="error-message" *ngIf="settingForm.get('appName')?.invalid && (settingForm.get('appName')?.touched || settingForm.get('appName')?.dirty)">
+        <span *ngIf="settingForm.get('appName')?.hasError('required')">Application Name is required.</span>
+        <span *ngIf="settingForm.get('appName')?.hasError('maxlength')">Maximum length of 100 characters exceeded.</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="version">Version Number</label>
+      <input type="text" id="version" formControlName="version" class="form-control">
+      <div class="error-message" *ngIf="settingForm.get('version')?.invalid && (settingForm.get('version')?.touched || settingForm.get('version')?.dirty)">
+        <span *ngIf="settingForm.get('version')?.hasError('required')">Version Number is required.</span>
+        <span *ngIf="settingForm.get('version')?.hasError('pattern')">Invalid version number format.</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="modifiedOn">Modified On</label>
+      <input type="text" id="modifiedOn" formControlName="modifiedOn" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="modifiedBy">Modified By</label>
+      <input type="text" id="modifiedBy" formControlName="modifiedBy" class="form-control">
+    </div>
+
+    <div class="dialog-actions">
+      <button type="button" class="cancel-button" (click)="onCancel()">Cancel</button>
+      <button type="submit" class="save-button" [disabled]="settingForm.invalid">Update</button>
+    </div>
+  </form>
+
+  <!-- Confirmation Dialog -->
+  <app-popup *ngIf="showConfirmation" (close)="showConfirmation = false">
+    <app-confirmation
+      [message]="'Are you sure you want to update this setting?'"
+      (confirmed)="handleConfirmation($event)">
+    </app-confirmation>
+  </app-popup>
+  
+</div>
